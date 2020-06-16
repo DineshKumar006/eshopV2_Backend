@@ -125,7 +125,7 @@ Router.route('/getAllProduct').get(async(req,res)=>{
                         discount:ele.discount,
                         gst:ele.gst,
                         extracharges:ele.extracharges,
-                        Link:`http://localhost:8080/products/getProduct/${ele._id}`
+                        Link:`/products/getProduct/${ele._id}`
                         
                          }
                 })
