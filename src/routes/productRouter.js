@@ -101,7 +101,7 @@ Router.route('/getProductByid/:id').get(async(req,res)=>{
             discount:data.discount,
             gst:data.gst,
             extracharges:data.extracharges,
-            Link:`/products/getProduct/${data._id}`
+            Link:`https://eshopping-backend.herokuapp.com/products/getProduct/${data._id}`
              
          }
         // res.set('Content-type', 'image/png');
@@ -125,7 +125,7 @@ Router.route('/getAllProduct').get(async(req,res)=>{
                         discount:ele.discount,
                         gst:ele.gst,
                         extracharges:ele.extracharges,
-                        Link:`/products/getProduct/${ele._id}`
+                        Link:`https://eshopping-backend.herokuapp.com/products/getProduct/${ele._id}`
                         
                          }
                 })
