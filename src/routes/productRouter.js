@@ -101,7 +101,7 @@ Router.route('/getProductByid/:id').get(async(req,res)=>{
             discount:data.discount,
             gst:data.gst,
             extracharges:data.extracharges,
-            Link:`http://localhost:8080/products/getProduct/${data._id}`
+            Link:`/products/getProduct/${data._id}`
              
          }
         // res.set('Content-type', 'image/png');
