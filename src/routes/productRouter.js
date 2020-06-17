@@ -24,24 +24,27 @@ Router.route('/productUpload').post(imageUpload.array('files',10),async(req,res)
     const files=req.files
 
     //  console.log(files.length)
-    //  console.log(req.body.itemtype[0])
+    //  console.log(req.body.itemtype)
     //   console.log(req.body.length)
 
+   
 if(files.length>1){
     try {
         req.files.map(async(ele)=>{
                const newProduct=new productModel()
                const newBuffer=await sharp(ele.buffer).resize({width:250,height:280}).png().toBuffer()
-                   newProduct.itemtype=req.body.itemtype[0],
-                    newProduct.price=req.body.price[0],
+             console.log(req.body.itemtype)
+                   newProduct.itemtype=req.body.itemtype,
+                    newProduct.price=req.body.price,
                    newProduct.avatarStatus=ele.buffer?true:false,
                    newProduct.avatar=newBuffer ,
-                   newProduct.discount=req.body.discount[0],
-                   newProduct.gst=req.body.gst? req.body.gst[0]: 30,
-                   newProduct.extracharges=req.body.extracharges[0]
+                   newProduct.discount=req.body.discount,
+                   newProduct.gst=req.body.gst? req.body.gst: 30,
+                   newProduct.extracharges=req.body.extracharges
                    await newProduct.save();
               
            })
+           
                 return res.status(200).send({status:'Upload success'}) 
        
               
@@ -64,6 +67,7 @@ if(files.length>1){
                    await newProduct.save();
               
            })
+        //    console.log(newProduct)
                 return res.status(200).send({status:'Upload success'}) 
        
               
@@ -72,11 +76,8 @@ if(files.length>1){
           };
        
 
-}
-  
+}  
 
-    
-   
 });
 
 
