@@ -33,14 +33,24 @@ if(files.length>1){
         req.files.map(async(ele)=>{
                const newProduct=new productModel()
                const newBuffer=await sharp(ele.buffer).resize({width:250,height:280}).png().toBuffer()
-             console.log(req.body.itemtype)
+            //  console.log(req.body.itemtype)
                    newProduct.itemtype=req.body.itemtype,
                     newProduct.price=req.body.price,
                    newProduct.avatarStatus=ele.buffer?true:false,
                    newProduct.avatar=newBuffer ,
                    newProduct.discount=req.body.discount,
                    newProduct.gst=req.body.gst? req.body.gst: 30,
-                   newProduct.extracharges=req.body.extracharges
+                   newProduct.extracharges=req.body.extracharges,
+
+                   newProduct.size.M=req.body.medium,
+                   newProduct.size.XL=req.body.XLarge,
+                   newProduct.size.XXL=req.body.XXLarge,
+                   newProduct.size.S=req.body.short,
+
+                   newProduct.color=req.body.color,
+                   newProduct.brand=req.body.brand
+
+
                    await newProduct.save();
               
            })
@@ -63,7 +73,16 @@ if(files.length>1){
                    newProduct.avatar=newBuffer ,
                    newProduct.discount=req.body.discount,
                    newProduct.gst=req.body.gst? req.body.gst: 30,
-                   newProduct.extracharges=req.body.extracharges
+                   newProduct.extracharges=req.body.extracharges,
+
+                   newProduct.size.M=req.body.medium,
+                   newProduct.size.XL=req.body.XLarge,
+                   newProduct.size.XXL=req.body.XXLarge,
+                   newProduct.size.S=req.body.short,
+
+                   newProduct.color=req.body.color,
+                   newProduct.brand=req.body.brand
+
                    await newProduct.save();
               
            })

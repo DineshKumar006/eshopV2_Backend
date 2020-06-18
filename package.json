@@ -14,6 +14,7 @@
   "dependencies": {
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
+    "ejs": "^3.1.3",
     "express": "^4.17.1",
     "express-fileupload": "^1.1.7-alpha.3",
     "jsonwebtoken": "^8.5.1",
@@ -22,6 +23,10 @@
     "nodemailer": "^6.4.10",
     "nodemon": "^2.0.4",
     "sharp": "^0.25.3",
+    "stripe": "^8.63.0",
     "validator": "^13.1.1"
+  },
+  "devDependencies": {
+    "dotenv": "^8.2.0"
   }
 }

@@ -22,6 +22,11 @@ app.use('/cartData',cartRoute)
 app.use('/orders',ordersRoute)
 
 
+app.get('/',async(req,res)=>{
+  
+    res.send('Eshopping app')
+})
+
 server.listen(PORT,()=>{
     console.log('Servering runnning on Port:',PORT);  
 })
