@@ -6,6 +6,10 @@ const authMiddleware=require('../middleware/authmiddleware')
 
 Router.route('/addorderDetails').post(authMiddleware,async(req,res)=>{
 
+console.log(req.validUser.email)
+
+    await ordersModel.generateMail('brightseeeds@gmail.com',req.validUser.email,req.body)
+
     const newOrder=new ordersModel();
 
     newOrder.orderBy.username=req.validUser.username
@@ -25,10 +29,8 @@ Router.route('/addorderDetails').post(authMiddleware,async(req,res)=>{
     newOrder.address.house_number=req.body.house_number
     newOrder.address.city=req.body.city
 
-   await ordersModel.generateMail('brightseeeds@gmail.com',req.validUser.email,req.body)
     newOrder.save().then(data=>{
         // console.log(data);
-
         return res.status(201).send({status:'success',data})
 
 
