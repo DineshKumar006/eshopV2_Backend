@@ -1,12 +1,89 @@
 const ordersModel=require('../models/ordersModel');
 const Router=require('express').Router()
 const authMiddleware=require('../middleware/authmiddleware')
+const stripe = require('stripe')("sk_test_51GvGvEGPcs7DKbrChu69gb5ovzAQ8R2xXn1zB0ZZw9cbcfAhEnwFJFrBbcrIaffwhmifXAfdANS4Ua8ta5LkWGUG00pypms6tg")
+
+
+const { v4: uuidv4 } = require('uuid');
+
+Router.route('/orderSuccess').post(authMiddleware, async(req,res)=>{
+    // console.log(req.body)
+
+    
+try {
+
+    await ordersModel.generateMail('brightseeeds@gmail.com',req.validUser.email,req.body.payload)
+
+    const {token,product,address}=req.body
+    const customer=await stripe.customers.create({
+        name:address.username,
+        email:token.email,
+        source:token.id
+    })
+    // console.log(customer.id)
+
+    const newOrder=new ordersModel();
+
+    newOrder.orderBy.username=req.validUser.username
+    newOrder.orderBy.email=req.validUser.email
+    newOrder.userId=req.validUser._id
+    
+    newOrder.productdetails.productname=req.body.payload.productname
+    newOrder.productdetails.price=req.body.payload.price
+    newOrder.productdetails.quantity=req.body.payload.quantity
+    newOrder.productdetails.paymentmode=req.body.payload.paymentmode
+    newOrder.productdetails.productLink=req.body.payload.productLink
+    newOrder.productdetails.cartid=req.body.payload.cartid,
+    newOrder.productdetails.itemid=req.body.payload.itemid
+
+
+    newOrder.onlinepayment.customerpaymentid=customer.id,
+    newOrder.onlinepayment.paymentmode=token.card.brand +" "+token.card.object
+
+    newOrder.address.username=req.body.payload.username
+    newOrder.address.phone=req.body.payload.phone
+    newOrder.address.house_number=req.body.payload.house_number
+    newOrder.address.city=req.body.payload.city
+    await newOrder.save()
+
+
+
+
+
+
+    const idempotencyKey=uuidv4()
+
+    const charge=await stripe.charges.create({
+        amount:(product.price+product.extracharges+product.gst)*100,
+        // id:"",
+        customer:customer.id,
+        currency:"INR",
+        receipt_email:token.email,
+        description:product.itemType,
+       
+    },{idempotencyKey})
+
+
+    return res.send('success')
+
+} catch (error) {
+
+    // console.log('charge',{error})
+    return res.send('failed')
+}
+
+   
+})
+
+
+
+
 
 
 
 Router.route('/addorderDetails').post(authMiddleware,async(req,res)=>{
 
-console.log(req.validUser.email)
+// console.log(req.validUser.email)
 
     await ordersModel.generateMail('brightseeeds@gmail.com',req.validUser.email,req.body)
 
@@ -23,6 +100,9 @@ console.log(req.validUser.email)
     newOrder.productdetails.productLink=req.body.productLink
     newOrder.productdetails.cartid=req.body.cartid,
     newOrder.productdetails.itemid=req.body.itemid
+
+    newOrder.onlinepayment.customerpaymentid=null,
+    newOrder.onlinepayment.paymentmode="COD"
 
     newOrder.address.username=req.body.username
     newOrder.address.phone=req.body.phone

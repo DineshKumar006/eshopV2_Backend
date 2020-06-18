@@ -25,7 +25,13 @@ const ordersSchema=mongoose.Schema({
         phone:{type:Number},
         house_number:{type:String},
         city:{type:String}
+    },
+
+    onlinepayment:{
+        customerpaymentid:{type:String},
+        paymentmode:{type:String}
     }
+
 },{
     timestamps:true
 });
