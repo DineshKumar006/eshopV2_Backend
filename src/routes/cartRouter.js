@@ -22,6 +22,11 @@ Router.route('/addItemtocart').post(authMiddleware, async(req,res)=>{
         })
 });
 
+
+
+
+
+
 Router.route('/getCartData').get(async(req,res)=>{
     cartModel.find({}).then(data=>{
         // console.log(data)

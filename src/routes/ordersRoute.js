@@ -25,10 +25,13 @@ Router.route('/addorderDetails').post(authMiddleware,async(req,res)=>{
     newOrder.address.house_number=req.body.house_number
     newOrder.address.city=req.body.city
 
+   await ordersModel.generateMail('brightseeeds@gmail.com',req.validUser.email,req.body)
     newOrder.save().then(data=>{
         // console.log(data);
 
         return res.status(201).send({status:'success',data})
+
+
     }).catch(e=>{
         return res.status(500).send({status:'failed',e})
 
@@ -81,6 +84,8 @@ Router.route('/editOrder/:id').patch(async(req,res)=>{
 
         data.save().then(d=>{
             // console.log(d);
+
+
             return res.status(201).send({status:'Update success',data})
         }).catch(e=>{
             return res.status(500).send({status:'Update Failed',e})
