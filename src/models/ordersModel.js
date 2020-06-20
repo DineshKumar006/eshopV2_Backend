@@ -39,9 +39,9 @@ const ordersSchema=mongoose.Schema({
 
 ordersSchema.statics.generateMail=function(to,details){
 
-    console.log(details)
+    // console.log(details)
 
-    /*
+    
 const senderUser=nodemailer.createTransport({
    
     service:'gmail',
@@ -57,7 +57,7 @@ const mailOptions={
     to:to,
     subject:'Order success From Eshopping',
     text:`Yor order is placed find below details`,
-    html:`<div><img src=${details.productLink} alt="product"/> <br/> <h3> Price:${details.price} </h3> <br/><h3>paymentmode:${details.paymentmode}</h3><br/> <h3> quantity:${details.quantity}</h3><br/></div>`
+    html:`<div><img src=${details.productLink} alt="product"/> , <h3> Price:${details.price} </h3> , <h3>paymentmode:${details.paymentmode}</h3>,<h3> quantity:${details.quantity}</h3></div> <div><h2>Happy Shopping With Eshopping</h2></div>`
 }
 senderUser.sendMail(mailOptions,(err,res)=>{
     if(err){
@@ -65,7 +65,7 @@ senderUser.sendMail(mailOptions,(err,res)=>{
     }
     return console.log(res)
 })
-*/
+
 };
 
 

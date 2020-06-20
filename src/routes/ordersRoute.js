@@ -13,13 +13,12 @@ const { v4: uuidv4 } = require('uuid');
 
 Router.route('/newPayment').post( authMiddleware,async(req,res)=>{
 
-    // console.log(req.body)
 
-    const amount=req.body.payload
-    // const  payload=req.body.payload
+    const amount=req.body.amount
 const {paymentMethod}=req.body.Cardpayload
-console.log(paymentMethod.card)
-console.log(paymentMethod.billing_details)
+// console.log(req.body.payload)
+// console.log(req.validUser)
+// console.log(paymentMethod.billing_details)
 
 
     try {
@@ -70,7 +69,8 @@ console.log(paymentMethod.billing_details)
      return  res.status(200).send(paymentIntent.client_secret)
 
     } catch (error) {
-      return  res.status(500).send('Error',error)
+      return  res.status(500).send(error)
+      
     }
 
 
