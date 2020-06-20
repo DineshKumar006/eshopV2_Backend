@@ -7,7 +7,7 @@ const cartSchems=mongoose.Schema({
     userEmail:{type:String},
     itemtype:{type:String},
     price:{type:Number},
-    avatarLinkId:{type:String},
+    productLink:{type:String},
     count:{type:Number},
     id:{type:String},
     gst:{type:Number},

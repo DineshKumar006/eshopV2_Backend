@@ -37,9 +37,11 @@ const ordersSchema=mongoose.Schema({
 });
 
 
-ordersSchema.statics.generateMail=function(from,to,details){
+ordersSchema.statics.generateMail=function(to,details){
 
     console.log(details)
+
+    /*
 const senderUser=nodemailer.createTransport({
    
     service:'gmail',
@@ -63,7 +65,7 @@ senderUser.sendMail(mailOptions,(err,res)=>{
     }
     return console.log(res)
 })
-
+*/
 };
 
 

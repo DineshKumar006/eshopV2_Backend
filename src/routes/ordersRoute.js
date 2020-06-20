@@ -1,10 +1,109 @@
 const ordersModel=require('../models/ordersModel');
 const Router=require('express').Router()
 const authMiddleware=require('../middleware/authmiddleware')
-const stripe = require('stripe')("sk_test_51GvGvEGPcs7DKbrChu69gb5ovzAQ8R2xXn1zB0ZZw9cbcfAhEnwFJFrBbcrIaffwhmifXAfdANS4Ua8ta5LkWGUG00pypms6tg")
+// const stripe = require('stripe')("sk_test_51GvGvEGPcs7DKbrChu69gb5ovzAQ8R2xXn1zB0ZZw9cbcfAhEnwFJFrBbcrIaffwhmifXAfdANS4Ua8ta5LkWGUG00pypms6tg")
+
+const Stripe = require('stripe')
+const stripe = new Stripe("sk_test_51GvGvEGPcs7DKbrChu69gb5ovzAQ8R2xXn1zB0ZZw9cbcfAhEnwFJFrBbcrIaffwhmifXAfdANS4Ua8ta5LkWGUG00pypms6tg")
 
 
 const { v4: uuidv4 } = require('uuid');
+
+
+
+Router.route('/newPayment').post( authMiddleware,async(req,res)=>{
+
+    // console.log(req.body)
+
+    const amount=req.body.payload
+    // const  payload=req.body.payload
+const {paymentMethod}=req.body.Cardpayload
+console.log(paymentMethod.card)
+console.log(paymentMethod.billing_details)
+
+
+    try {
+        await ordersModel.generateMail(req.validUser.email,req.body.payload)
+
+        const newOrder=new ordersModel();
+
+        newOrder.orderBy.username=req.validUser.username
+        newOrder.orderBy.email=req.validUser.email
+        newOrder.userId=req.validUser._id
+        
+        newOrder.productdetails.productname=req.body.payload.productname
+        newOrder.productdetails.price=req.body.payload.price
+        newOrder.productdetails.quantity=req.body.payload.quantity
+        newOrder.productdetails.paymentmode=req.body.payload.paymentmode
+        newOrder.productdetails.productLink=req.body.payload.productLink
+        newOrder.productdetails.cartid=req.body.payload.cartid,
+        newOrder.productdetails.itemid=req.body.payload.itemid
+    
+    
+        newOrder.onlinepayment.customerpaymentid=paymentMethod.id,
+        newOrder.onlinepayment.paymentmode=paymentMethod.card.brand +" "+paymentMethod.type
+    
+        newOrder.address.username=req.body.payload.username
+        newOrder.address.phone=req.body.payload.phone
+        newOrder.address.house_number=req.body.payload.house_number
+        newOrder.address.city=req.body.payload.city
+        await newOrder.save()
+    
+    
+
+        // const customer=await stripe.customers.create({
+        //     name:payload.paymentMethod.billing_details.name,
+        //     email:payload.paymentMethod.billing_details.email,
+        //     source:payload.paymentMethod.id
+        // })
+
+        
+        const paymentIntent= await stripe.paymentIntents.create({
+            amount,
+            currency:'inr',
+            metadata: {integration_check: 'accept_a_payment'},
+
+        })
+        
+         console.log(paymentIntent.client_secret)
+         
+     return  res.status(200).send(paymentIntent.client_secret)
+
+    } catch (error) {
+      return  res.status(500).send('Error',error)
+    }
+
+
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Router.route('/orderSuccess').post(authMiddleware, async(req,res)=>{
     // console.log(req.body)

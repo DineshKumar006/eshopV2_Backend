@@ -116,12 +116,12 @@ Router.route('/getProductByid/:id').get(async(req,res)=>{
     productModel.findById({_id:req.params.id}).then(data=>{ 
          const doc={
              Itemid:data._id,
-            itemType:data.itemtype,
+            itemtype:data.itemtype,
             price:data.price,
             discount:data.discount,
             gst:data.gst,
             extracharges:data.extracharges,
-            Link:`https://eshopping-backend.herokuapp.com/products/getProduct/${data._id}`
+            productLink:`https://eshopping-backend.herokuapp.com/products/getProduct/${data._id}`
              
          }
         // res.set('Content-type', 'image/png');
@@ -140,12 +140,12 @@ Router.route('/getAllProduct').get(async(req,res)=>{
             items:data.map(ele=>{
                     return {
                         id:ele._id,
-                        itemType:ele.itemtype,
+                        itemtype:ele.itemtype,
                         price:ele.price,
                         discount:ele.discount,
                         gst:ele.gst,
                         extracharges:ele.extracharges,
-                        Link:`https://eshopping-backend.herokuapp.com/products/getProduct/${ele._id}`
+                        productLink:`https://eshopping-backend.herokuapp.com/products/getProduct/${ele._id}`
                         
                          }
                 })
