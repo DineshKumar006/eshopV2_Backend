@@ -92,7 +92,7 @@ const imageUpload=multer({
 
 
 
-Router.route('/profilePic/:id').post(imageUpload.single('image_Upload') ,authMiddleware, async(req,res)=>{
+Router.route('/uploadprofilePic').post(imageUpload.single('image_Upload') ,authMiddleware, async(req,res)=>{
 
     const newBuffer= await sharp(req.file.buffer).resize({width:250,height:250}).png().toBuffer()
     // const isUser=await userModel.findOne({_id:req.params.id});
