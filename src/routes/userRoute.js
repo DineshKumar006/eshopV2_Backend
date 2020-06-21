@@ -43,11 +43,7 @@ Router.route('/Login').post(async(req,res)=>{
 });
 
 
-Router.route('/userProfile').get(authMiddleware,async(req,res)=>{
 
-        return res.status(200).send(req.validUser)
-
-});
 
 
 Router.route('/getValidToken').get(async(req,res)=>{
@@ -79,6 +75,75 @@ Router.route('/LoginStatus').get(authMiddleware,async(req,res)=>{
         return res.status(200).send({status:req.validUser.loginStatus})
    
 })
+
+
+
+const imageUpload=multer({
+    limits:{
+        fileSize:5000000
+    },
+    // fileFilter(req,file,cb){
+    //     if(!file.originalname.match(/\.(png|jpg|jpeg)$/)){
+    //         return cb(new Error('image format not allowed'))
+    //     }
+    // }
+})
+
+
+
+
+Router.route('/profilePic/:id').post(imageUpload.single('image_Upload') ,authMiddleware, async(req,res)=>{
+
+    const newBuffer= await sharp(req.file.buffer).resize({width:250,height:250}).png().toBuffer()
+    // const isUser=await userModel.findOne({_id:req.params.id});
+    try {
+        req.validUser.avatar=newBuffer
+       await req.validUser.save();
+       console.log('success')
+        return res.status(200).send({status:'success'})
+    } catch (error) {
+        return res.status(500).send({status:'failed',e})
+
+    }
+    
+});
+
+
+Router.route('/getProfilePic').get(authMiddleware,(req,res)=>{
+
+    try {
+        if(req.validUser.avatar){
+            res.set('Content-type', 'image/png');
+            return res.status(200).send(req.validUser.avatar)
+        }
+    } catch (error) {
+        return res.status(500).send('Error No avatar')
+
+    }
+
+})
+
+
+// Router.route('/userProfile').get(authMiddleware,async(req,res)=>{
+
+//     return res.status(200).send(req.validUser)
+
+// });
+
+
+Router.route('/userProfile').get(authMiddleware,async(req,res)=>{
+        const {username,email,phonenumber}=req.validUser
+        const data={
+            username,
+            email,
+            phonenumber,
+            profilePic:"http://localhost:8080/users/getProfilePic"
+
+        }
+    return res.status(200).send(data)
+
+});
+
 
 
 
