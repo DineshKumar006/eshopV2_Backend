@@ -109,12 +109,13 @@ Router.route('/profilePic/:id').post(imageUpload.single('image_Upload') ,authMid
 });
 
 
-Router.route('/getProfilePic').get(authMiddleware,(req,res)=>{
+Router.route('/getProfilePic/:id').get(async(req,res)=>{
 
+    const user=await userModel.findOne({_id:req.params.id})
     try {
-        if(req.validUser.avatar){
+        if(user.avatar){
             res.set('Content-type', 'image/png');
-            return res.status(200).send(req.validUser.avatar)
+            return res.status(200).send(user.avatar)
         }
     } catch (error) {
         return res.status(500).send('Error No avatar')
@@ -132,12 +133,12 @@ Router.route('/getProfilePic').get(authMiddleware,(req,res)=>{
 
 
 Router.route('/userProfile').get(authMiddleware,async(req,res)=>{
-        const {username,email,phonenumber}=req.validUser
+        const {username,email,phonenumber,_id}=req.validUser
         const data={
             username,
             email,
             phonenumber,
-            profilePic:"http://localhost:8080/users/getProfilePic"
+            profilePic:`https://eshopping-backend.herokuapp.com/users/getProfilePic/${_id}`
 
         }
     return res.status(200).send(data)
