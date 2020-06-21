@@ -19,8 +19,6 @@ const {paymentMethod}=req.body.Cardpayload
 // console.log(req.body.payload)
 // console.log(req.validUser)
 // console.log(paymentMethod.billing_details)
-
-
     try {
         await ordersModel.generateMail(req.validUser.email,req.body.payload)
 
@@ -47,14 +45,6 @@ const {paymentMethod}=req.body.Cardpayload
         newOrder.address.house_number=req.body.payload.house_number
         newOrder.address.city=req.body.payload.city
         await newOrder.save()
-    
-    
-
-        // const customer=await stripe.customers.create({
-        //     name:payload.paymentMethod.billing_details.name,
-        //     email:payload.paymentMethod.billing_details.email,
-        //     source:payload.paymentMethod.id
-        // })
 
         
         const paymentIntent= await stripe.paymentIntents.create({
@@ -75,32 +65,6 @@ const {paymentMethod}=req.body.Cardpayload
 
 
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -176,15 +140,11 @@ try {
 
 
 
-
-
-
-
 Router.route('/addorderDetails').post(authMiddleware,async(req,res)=>{
 
-// console.log(req.validUser.email)
 
-    await ordersModel.generateMail('brightseeeds@gmail.com',req.validUser.email,req.body)
+    await ordersModel.generateMail(req.validUser.email,req.body)
+
 
     const newOrder=new ordersModel();
 
@@ -239,6 +199,13 @@ Router.route('/getMyorder/:userid').get(authMiddleware,async(req,res)=>{
     }).catch(e=>{
         return res.status(500).send({Error:'failed'})
 
+    })
+});
+
+
+Router.route('/deleteAllOrder').delete(async(req,res)=>{
+    ordersModel.deleteMany({}).then(data=>{
+        return res.status(400).send("delete success")
     })
 })
 
