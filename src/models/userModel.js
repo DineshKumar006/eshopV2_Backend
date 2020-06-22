@@ -84,7 +84,9 @@ userSchema.statics.validateUser=async function(email,password){
 
 userSchema.methods.generateToken=async function(){
     //  console.log(this._id.toString())
-    const token=jwt.sign({_id:this._id.toString()},'eshopping', {expiresIn:'1d'})
+    // const token=jwt.sign({_id:this._id.toString()},'eshopping', {expiresIn:'1d'})
+    const token=jwt.sign({_id:this._id.toString()},'eshopping')
+
     this.Tokens=this.Tokens.concat({token:token})
     await this.save();
     return token
