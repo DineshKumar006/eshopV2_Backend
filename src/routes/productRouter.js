@@ -161,9 +161,37 @@ Router.route('/getAllProduct').get(async(req,res)=>{
 
 
 
+Router.route('/getAllProductDetails').get(async(req,res)=>{
+    
+    productModel.find({}).then(data=>{ 
+        const doc={
+            name:'images url',
+            items:data.map(ele=>{
+                    return {
+                        id:ele._id,
+                        itemtype:ele.itemtype,
+                        price:ele.price,
+                        discount:ele.discount,
+                        gst:ele.gst,
+                        extracharges:ele.extracharges,
+                        productLink:`https://eshopping-backend.herokuapp.com/products/getProduct/${ele._id}`
+                        
+                         }
+                })
+        }
+        return res.status(200).send(doc)
+      
+    }).catch(e=>{
+        return res.status(500).send('error')
+
+    })
+});
+
+
+
 
 //---------------------------------------------------
-
+/*
 
 Router.route('/getProductImg/:id').get(async(req,res)=>{
     productModel.findById({_id:req.params.id}).then(data=>{ 
@@ -202,7 +230,7 @@ Router.route('/getAllItems').get(async(req,res)=>{
 });
 
 
-
+*/
 
 /*
 Router.route('/getAllProduct2').get(async(req,res)=>{
