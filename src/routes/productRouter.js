@@ -158,7 +158,7 @@ Router.route('/getAllProduct').get(async(req,res)=>{
 });
 
 
-
+/*
 
 Router.route('/getAllProductDetails').get(async(req,res)=>{
     
@@ -185,7 +185,7 @@ Router.route('/getAllProductDetails').get(async(req,res)=>{
 
     })
 });
-
+*/
 
 
 

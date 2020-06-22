@@ -18,10 +18,6 @@ const cartSchems=mongoose.Schema({
 })
 
 
-
-
-
-
 const cartModel=mongoose.model('cartmodel',cartSchems);
 
 
