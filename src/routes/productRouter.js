@@ -132,37 +132,37 @@ Router.route('/getProductByid/:id').get(async(req,res)=>{
     })
 })
 
-// Router.route('/getAllProduct').get(async(req,res)=>{
+Router.route('/getAllProduct').get(async(req,res)=>{
     
-//     productModel.find({}).then(data=>{ 
-//         const doc={
-//             items:data.map(ele=>{
-//                     return {
-//                         id:ele._id,
-//                         itemtype:ele.itemtype,
-//                         price:ele.price,
-//                         discount:ele.discount,
-//                         gst:ele.gst,
-//                         extracharges:ele.extracharges,
-//                         productLink:`https://eshopping-backend.herokuapp.com/products/getProduct/${ele._id}`
+    productModel.find({}).then(data=>{ 
+        const doc={
+            items:data.map(ele=>{
+                    return {
+                        id:ele._id,
+                        itemtype:ele.itemtype,
+                        price:ele.price,
+                        discount:ele.discount,
+                        gst:ele.gst,
+                        extracharges:ele.extracharges,
+                        productLink:`https://eshopping-backend.herokuapp.com/products/getProduct/${ele._id}`
                         
-//                          }
-//                 })
-//         }
-//         return res.status(200).send(doc)
+                         }
+                })
+        }
+        return res.status(200).send(doc)
       
-//     }).catch(e=>{
-//         return res.status(500).send('error')
+    }).catch(e=>{
+        return res.status(500).send('error')
 
-//     })
-// });
-
-
+    })
+});
 
 
 
 
 
+
+/*
 Router.route('/getAllProduct').get(async(req,res)=>{
     
     const data=await productModel.find({})
@@ -193,7 +193,7 @@ if(data){
      
 });
 
-
+*/
 
 module.exports=Router
 
