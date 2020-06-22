@@ -40,8 +40,6 @@ const ordersSchema=mongoose.Schema({
 ordersSchema.statics.generateMail=function(to,details){
 
     // console.log(details)
-
-    
 const senderUser=nodemailer.createTransport({
    
     service:'gmail',

@@ -20,12 +20,10 @@ const userSchema=mongoose.Schema({
         required:true,
         validate(value){
            if(!validator.isEmail(value)){
-
             throw new Error('not a valid email')
            }
 
             }
-    
     },
 
     password:{
