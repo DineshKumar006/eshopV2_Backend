@@ -136,7 +136,6 @@ Router.route('/getAllProduct').get(async(req,res)=>{
     
     productModel.find({}).then(data=>{ 
         const doc={
-            name:'images url',
             items:data.map(ele=>{
                     return {
                         id:ele._id,
