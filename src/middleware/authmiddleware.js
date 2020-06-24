@@ -5,6 +5,7 @@ const userModel=require('../models/userModel')
 const authmiddleWare= async(req,res,next)=>{
 try {
     const headerToken=req.header('Authorization').replace('Bearer ','')
+    console.log(headerToken)
     const isMatch=jwt.verify(headerToken,'eshopping')
 
 
@@ -12,6 +13,7 @@ try {
     if(!isUser){
         throw new Error()  
     }
+    req.validToken=headerToken
     req.validUser=isUser
     req.headerToken=headerToken
     return  next();

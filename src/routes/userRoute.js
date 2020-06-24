@@ -30,7 +30,7 @@ Router.route('/Login').post(async(req,res)=>{
         try {
             const isuser=await userModel.validateUser(req.body.email,req.body.password);
 
-            console.log(isuser)
+            // console.log(isuser)
                 const token= await isuser.generateToken()
                 return res.status(200).send({status:'Login sucess',isuser,token})
 
@@ -41,6 +41,15 @@ Router.route('/Login').post(async(req,res)=>{
         }
    
 });
+
+
+
+Router.route('/validateUser').get(authMiddleware,async(req,res)=>{
+
+  res.status(200).send({token:req.validToken}) 
+
+
+})
 
 
 
