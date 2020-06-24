@@ -46,7 +46,13 @@ Router.route('/Login').post(async(req,res)=>{
 
 Router.route('/validateUser').get(authMiddleware,async(req,res)=>{
 
-  res.status(200).send({token:req.validToken}) 
+    try {
+        res.status(200).send({token:true}) 
+
+    } catch (error) {
+        res.status(404).send({token:false}) 
+
+    }
 
 
 })
@@ -56,7 +62,7 @@ Router.route('/validateUser').get(authMiddleware,async(req,res)=>{
 
 
 Router.route('/getValidToken').get(async(req,res)=>{
-
+        
 })
 
 Router.route('/Logout').post(authMiddleware,async(req,res)=>{
