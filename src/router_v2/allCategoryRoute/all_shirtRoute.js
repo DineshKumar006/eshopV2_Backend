@@ -37,10 +37,9 @@ const imageUpload=multer({
 Router.route('/addAllshirts').post( imageUpload.array('allshirtimg',8),async(req,res)=>{
 
     try {
-    // console.log(req.files)
 const {categoryname,description,brandname,price,slasher_price,deliverycharges,gst,filtergroup}=req.body
 
-console.log(Math.ceil((parseInt(price)/parseInt(slasher_price)) * 100))
+// console.log(Math.ceil((parseInt(price)/parseInt(slasher_price)) * 100))
 
     req.files.map(async(ele)=>{
         try {
