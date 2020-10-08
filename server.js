@@ -70,7 +70,7 @@ app.use((req,res,next)=>{
 
 app.get('/',async(req,res)=>{
   
-    res.send('Eshopping app')
+    res.send('EshoppingV2 app')
 })
 
 
