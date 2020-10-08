@@ -32,7 +32,7 @@ const userSchema=mongoose.Schema({
         minlenght:6,
         trim:true,
         validate(value){
-            let str=value.toLowerCase().includes('pssword')
+            let str=value.toLowerCase().includes('password')
             if(str){
                 throw new Error('password should not be password')
             }
@@ -54,9 +54,10 @@ const userSchema=mongoose.Schema({
 
     Tokens:[{
         token:{type:String}
-    }]
+    }],
 
-
+    avatarurl:{type:String},
+    userOrders:[{type:mongoose.Types.ObjectId, ref:'ordersmodel'}]
 
     },
     {
@@ -70,14 +71,21 @@ userSchema.statics.validateUser=async function(email,password){
    const validUser=await userModel.findOne({email:email,password:password});
    validUser.loginStatus=true
 
-    //  console.log(validUser)
     if(validUser==null){
-        // validUser.loginStatus=false
         return new Error('User not found')
     }
   return validUser
 }
 
+userSchema.statics.userExists=async(email)=>{
+    const userExists=await userModel.findOne({email}).exec()
+    console.log(userExists)
+    if(userExists){
+        return true
+    }
+    return false
+
+}
 
 
 userSchema.methods.generateToken=async function(){
