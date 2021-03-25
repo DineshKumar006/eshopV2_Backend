@@ -81,7 +81,7 @@ app.use('/api/eshop/bulk',bulkRouter)
 
 app.get('/',async(req,res)=>{
   
-    res.send('EshoppingV2 app')
+    res.send('Welcome to EshoppingV2 app')
 })
 
 // app.use((req,res,next)=>{
