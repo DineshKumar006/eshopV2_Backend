@@ -20,6 +20,13 @@ require('dotenv').config()
 
 const PORT=process.env.PORT || 8080
 
+// app.options('/', function (req, res) {
+//     res.setHeader("Access-Control-Allow-Origin", "*");
+//     res.setHeader('Access-Control-Allow-Methods', '*');
+//     res.setHeader("Access-Control-Allow-Headers", "*");
+//     res.end();
+//   });
+
 const userRoute=require('./src/router_v2/userRoute')
 const shirtRoute=require('./src/router_v2/mensRoute/shirtsRoute')
 const tshirtRoute=require('./src/router_v2/mensRoute/tshirtRoute')
@@ -70,13 +77,15 @@ app.use('/api/eshop/mycart',cartRouterV2)
 
 
 app.use('/api/eshop/bulk',bulkRouter)
-app.use((req,res,next)=>{
-    res.status(404).send("url not found")
-})
+
 
 app.get('/',async(req,res)=>{
   
     res.send('EshoppingV2 app')
+})
+
+app.use((req,res,next)=>{
+    res.status(404).send("url not found")
 })
 
 
