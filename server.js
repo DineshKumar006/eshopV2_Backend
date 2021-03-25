@@ -4,11 +4,17 @@ const app=express();
 const cors=require('cors')
 const path=require('path')
 const bodyParser=require('body-parser')
+const compression=require('compression')
+
 require('./src/db/db')
+app.use(compression({
+    level:6,
+    threshold:0
+}))
 app.use(express.json());
 app.use(cors());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({extended: true}));
 const server=http.createServer(app)
 require('dotenv').config()
 

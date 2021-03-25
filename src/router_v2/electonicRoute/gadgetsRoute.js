@@ -34,7 +34,7 @@ const imageUpload=multer({
 
 
 
-Router.route('/addGadgets').post( imageUpload.array('gadgets',8),async(req,res)=>{
+Router.route('/addGadgets').post(imageUpload.array('gadgets',8),async(req,res)=>{
 
     try {
 const {categoryname,seriesname, description,brandname,price,slasher_price,deliverycharges,gst}=req.body
