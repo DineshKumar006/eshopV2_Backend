@@ -7,14 +7,14 @@ const bodyParser=require('body-parser')
 const compression=require('compression')
 
 require('./src/db/db')
-app.use(compression({
-    level:6,
-    threshold:0
-}))
+// app.use(compression({
+//     level:6,
+//     threshold:0
+// }))
 app.use(express.json());
 app.use(cors());
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 const server=http.createServer(app)
 require('dotenv').config()
 
@@ -84,9 +84,9 @@ app.get('/',async(req,res)=>{
     res.send('EshoppingV2 app')
 })
 
-app.use((req,res,next)=>{
-    res.status(404).send("url not found")
-})
+// app.use((req,res,next)=>{
+//     res.status(404).send("url not found")
+// })
 
 
 
